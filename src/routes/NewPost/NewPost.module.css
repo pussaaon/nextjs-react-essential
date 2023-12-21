@@ -45,7 +45,13 @@
 }
 
 .actions button[type='button'] {
-    background-color: transparent;
+    background-color: transparent;    
+}
+
+.cancel {
+    color: #fff;
+    line-height: 3;
+    text-decoration: none;
 }
 
 .actions button[type='button']:hover {
