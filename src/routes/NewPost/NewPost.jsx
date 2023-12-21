@@ -1,49 +1,43 @@
 import styles from './NewPost.module.css';
 import Modal from '../../components/Modal/Modal.jsx';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, redirect, Form } from 'react-router-dom';
 
-function NewPost({ onDismiss, addPost }) {
-
-    const [message, setMessage] = useState('');
-    const [username, setUsername] = useState('');
-
-    function onMessageChanged(e) {
-        setMessage(e.target.value);
-    }
-
-    function onUsernameChanged(e) {
-        setUsername(e.target.value);
-    }
-
-    function submitPost(e) {
-        e.preventDefault();
-        const post = {
-            message: message,
-            username: username
-        };
-        addPost(post);
-        onDismiss();
-    }
+function NewPost() {
 
     return (
-        <Modal onDismiss={onDismiss}>
-            <form className={styles.form} onSubmit={submitPost}>
+        <Modal>
+            <Form method='post' className={styles.form}>
                 <p>
                     <label htmlFor="message">Text:</label>
-                    <textarea id="message" required rows={3} onChange={onMessageChanged} />
+                    <textarea id="message" name="message" required rows={3} />
                 </p>
                 <p>
                     <label htmlFor="username" label="Username">Your name:</label>
-                    <input type="text" id="username" required onChange={onUsernameChanged} />
+                    <input type="text" name="username" id="username" required />
                 </p>
                 <p className={styles.actions}>
                     <Link to="../" className={styles.cancel}>Cancel</Link>
                     <button type="submit">Submit</button>
                 </p>
-            </form>
+            </Form>
         </Modal>
     );
 }
 
 export default NewPost;
+
+export async function postSubmit({ request }) {
+
+    const formData = await request.formData();
+    const postData = Object.fromEntries(formData);
+
+    await fetch('http://localhost:8080/posts', {
+        method: 'POST',
+        body: JSON.stringify(postData),
+        headers: {
+            'content-type': 'application/json'
+        }
+    });
+
+    return redirect('/');
+}
