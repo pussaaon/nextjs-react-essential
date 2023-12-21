@@ -1,9 +1,16 @@
 .posts {
+    list-style: none;
+    max-width: 50rem;
+    margin: 1rem auto;
+    padding: 1rem 0;
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(3, 30%);
+    justify-content: center;
 }
 
-.postsWrapper {
-    padding: 24px;
+.noPost {
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
 }
